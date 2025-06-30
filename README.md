@@ -1,6 +1,6 @@
 # Models
 
-Financial models, in-depth analyses, and research resources for companies listed on US and global markets. Also includes curated scientific literature summaries, datasets, and supporting materials for biotechnology, pharmaceuticals, quantum computing, energy, semiconductors, and related sectors. The collection is organized by industry and topic, featuring:
+Financial (DCF) models, in-depth analyses, and research resources for companies listed on US and global markets. Also includes curated scientific literature summaries, datasets, and supporting materials for biotechnology, pharmaceuticals, quantum computing, energy, semiconductors, and related sectors. The collection is organized by industry and topic, featuring:
 
 - Financial models and quantitative analyses (xlsx files)
 - Summaries and references of scientific publications (notably Alzheimer's and other biotech topics)
