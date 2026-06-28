@@ -88,3 +88,11 @@ To avoid using less efficient 1200V+ SiC components, this architecture divides t
 * **Transformers & Passives:** Utilizes planar transformers integrated into the PCB for high power density and thermal management. Synchronous Rectification (SR) is heavily relied upon to handle the massive currents at the 12V output.
 
 *(Note: For explicit inductor (L), capacitor (C - including MLCCs), and fuse values, the Bill of Materials (BOM) files in the TI PowerLab (PMP41037) or ST product documentation (STDES-6KWHVDCDC) contain exact schematic-level part numbers.)*
+
+### D. Deep Dive on Passive & Electromechanical Components in 800V-to-12V LLCs
+To fully realize these designs, specific classes of passive components must be utilized to survive the extreme voltage differentials and high output currents:
+* **Fuses:** 800VDC systems require specialized DC-rated fuses (e.g., from Littelfuse or Eaton Bussmann) designed to extinguish DC arcs without relying on a zero-crossing. These are typically ceramic tube, sand-filled fuses placed on the high-voltage input stage.
+* **MLCCs (Multi-Layer Ceramic Capacitors):** Used heavily for high-frequency decoupling and snubber circuits. On the primary (800V) side, they must be rated for at least 1000VDC (e.g., Murata or TDK high-voltage series). On the secondary (12V) side, banks of lower-voltage, high-capacitance MLCCs handle the massive output ripple currents.
+* **Electrolytic Capacitors:** Employed on the 800V input bus for bulk energy storage and low-frequency filtering. Due to voltage limits, these are often placed in series (with balancing resistors) to handle the 800V stress.
+* **Inductors & Transformers:** The LLC topology relies on a resonant inductor (Lr) and magnetizing inductance (Lm). High-power density designs (like the EPC or TI models) utilize custom **planar transformers** (e.g., custom wound YXS61615T for the TI board) where the "windings" are actually heavy copper traces embedded directly into the multi-layer PCB, rather than traditional wire-wound bobbins.
+* **Copper Traces (PCB):** The secondary side outputting 12V handles hundreds of amps. To manage this without melting, PCBs use heavy copper (e.g., 3 oz to 4 oz copper layers), thermal vias, and exposed copper planes mated directly to liquid cold plates for extreme thermal extraction.
