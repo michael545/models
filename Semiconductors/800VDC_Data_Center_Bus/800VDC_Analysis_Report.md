@@ -58,3 +58,33 @@ Mechanical breakers are too slow to extinguish 800VDC arcs safely. SSCBs use SiC
 ### Battery Energy Storage Systems (BESS)
 Gigawatt-scale BESS is becoming mandatory to smooth AI load transients and phase out diesel generators.
 * **Key Players:** **Fluence Energy (FLNC)** (Smartstack in the 136MW reference architecture), **Tesla** (Megapacks for colocation), and **ON.energy**.
+
+---
+
+## 5. 800V to 12V DC-DC Conversion (LLC Reference Designs)
+
+The step-down from an 800VDC bus to a 12V intermediate bus is typically achieved using LLC resonant converter topologies, favored for their Zero-Voltage Switching (ZVS) and Zero-Current Switching (ZCS) capabilities which drastically reduce switching losses and EMI. 
+
+Due to the extreme 64:1 voltage conversion ratio (800V to 12.5V), designs often employ advanced semiconductor materials (GaN and SiC) and specific topologies like ISOP (Input-Series Output-Parallel) or bidirectional DCX. Below are notable reference designs and their specific BOM component profiles:
+
+### A. Texas Instruments PMP41037 (1kW Bidirectional DCX)
+This reference design functions as an isolated DC transformer converting 800V to 12V, aimed at automotive and industrial applications.
+* **Microcontroller (MCU):** **C2000™ TMS320F280039C** real-time MCU, used for precise resonant control.
+* **Power FETs:** Uses **LMG3622** 650V GaN half-bridge power stages configured in serial to handle the 800V input.
+* **Gate Drivers:** **UCC27524** dual-channel gate drivers.
+* **Isolation & Sensing:** **ISO7721** digital isolators, **AMC1311** isolated amplifiers, and **ACS733** current sensors.
+
+### B. STMicroelectronics STDES-6KWHVDCDC (6kW LLC Converter)
+A full-bridge LLC resonant converter designed for EV charging and high-voltage infrastructure.
+* **Microcontroller (MCU):** **STM32G474RET6** (specifically designed for digital power conversion).
+* **Power MOSFETs (Primary Side):** **STW40N95DK5** MDmesh DK5 Power MOSFETs.
+* **Rectification Diodes:** **STPSC40H12CWL** Silicon Carbide (SiC) Schottky diodes.
+* **Gate Driving:** Uses **PM8834MTR** gate driver ICs with isolated gate drive transformers.
+
+### C. EPC (Efficient Power Conversion) 6kW ISOP Converter
+To avoid using less efficient 1200V+ SiC components, this architecture divides the voltage stress using stacked modules.
+* **Topology (ISOP):** By stacking eight LLC modules (Input-Series Output-Parallel), the complex 64:1 conversion is reduced to a 100V to 12.5V step per module.
+* **GaN FETs:** This configuration allows the use of lower voltage, higher-efficiency GaN FETs (e.g., EPC's 100V/200V eGaN devices) instead of high-voltage parts.
+* **Transformers & Passives:** Utilizes planar transformers integrated into the PCB for high power density and thermal management. Synchronous Rectification (SR) is heavily relied upon to handle the massive currents at the 12V output.
+
+*(Note: For explicit inductor (L), capacitor (C - including MLCCs), and fuse values, the Bill of Materials (BOM) files in the TI PowerLab (PMP41037) or ST product documentation (STDES-6KWHVDCDC) contain exact schematic-level part numbers.)*
